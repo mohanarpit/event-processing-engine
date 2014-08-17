@@ -40,9 +40,9 @@ public abstract class BaseDAO<T> {
 		return entities;
 	}
 	
-	public List<T> get(String id){
+	public T get(String id){
 		Query searchQuery = new Query(Criteria.where("_id").is(id));
-		return mongoOperation.find(searchQuery, this.getType());
+		return mongoOperation.findOne(searchQuery, this.getType());
 	}
 
 	public void delete(BigInteger id) {

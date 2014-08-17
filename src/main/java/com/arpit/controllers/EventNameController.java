@@ -33,11 +33,11 @@ public class EventNameController extends BaseController{
 		BaseDAO<EventNameEntity> dao = new EventNameManager();
 		dao.setMongoOperation(mongoOperation);
 		dao.add(ehe);
-		return "true";
+		return ehe.getId();
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public @ResponseBody List<EventNameEntity> get(@PathVariable("id") String id) {
+	public @ResponseBody EventNameEntity get(@PathVariable("id") String id) {
 		BaseDAO<EventNameEntity> dao = new EventNameManager();
 		dao.setMongoOperation(mongoOperation);
 		return dao.get(id);
