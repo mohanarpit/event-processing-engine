@@ -14,8 +14,10 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Component;
 
 import reactor.core.Reactor;
+import reactor.event.Event;
+import reactor.function.Consumer;
 
-import com.arpit.actors.Receiver;
+import com.arpit.datatypes.EventDataType;
 import com.arpit.db.BaseDAO;
 import com.arpit.db.EventNameEntity;
 import com.arpit.db.EventRegistryEntity;
@@ -30,6 +32,7 @@ public class ApplicationInitOnStartup implements ApplicationListener<ContextRefr
 	@Autowired
 	protected MongoOperations mongoOperation;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
 		System.out.println("********The application is refreshed********");
@@ -40,7 +43,16 @@ public class ApplicationInitOnStartup implements ApplicationListener<ContextRefr
 			System.out.println("Setting reactor subscriber for "+ eventRegistry.getId());
 			EventNameEntity eventName = new EventNameEntity();
 			eventName = eventRegistry.getEvent();
-			reactor.on($(eventName.getName()), new Receiver());
+			String eventHandlerName = eventRegistry.getHandler().getImpl();
+			Consumer<Event<EventDataType>> eventHandler = null;
+			try {
+				eventHandler = (Consumer<Event<EventDataType>>) Class.forName(eventHandlerName).newInstance();
+				reactor.on($(eventName.getName()), eventHandler);
+			} catch (InstantiationException 
+					| IllegalAccessException
+					| ClassNotFoundException e) {
+				System.out.println("Unable to register handler "+eventHandlerName+ " with reactor");
+			}
 		}
 	}
 
