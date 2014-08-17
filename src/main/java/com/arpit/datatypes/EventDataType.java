@@ -19,6 +19,7 @@ public class EventDataType {
 	private String type;
 	
 	private List<EventNamespace> eventNamespaces;
+	private String source;
 	
 	public EventDataType() {}
 	
@@ -57,4 +58,13 @@ public class EventDataType {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
 }

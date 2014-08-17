@@ -21,24 +21,24 @@ public class EventHandlerController extends BaseController {
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public List<EventHandlerEntity> index() {
-		BaseDAO<EventHandlerEntity> ehm = new EventHandlerManager();
-		ehm.setMongoOperation(mongoOperation);
-		return ehm.getAll();
+		BaseDAO<EventHandlerEntity> dao = new EventHandlerManager();
+		dao.setMongoOperation(mongoOperation);
+		return dao.getAll();
 	}
 	
 	
 	@RequestMapping(value="/", method=RequestMethod.POST)
 	public @ResponseBody String insert(@RequestBody @Valid final EventHandlerEntity ehe) {
-		BaseDAO<EventHandlerEntity> ehm = new EventHandlerManager();
-		ehm.setMongoOperation(mongoOperation);
-		ehm.add(ehe);
+		BaseDAO<EventHandlerEntity> dao = new EventHandlerManager();
+		dao.setMongoOperation(mongoOperation);
+		dao.add(ehe);
 		return ehe.getId();
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public @ResponseBody EventHandlerEntity get(@PathVariable("id") String id) {
-		BaseDAO<EventHandlerEntity> ehm = new EventHandlerManager();
-		ehm.setMongoOperation(mongoOperation);
-		return ehm.get(id);
+		BaseDAO<EventHandlerEntity> dao = new EventHandlerManager();
+		dao.setMongoOperation(mongoOperation);
+		return dao.get(id);
 	}
 }
