@@ -1,5 +1,7 @@
 package com.arpit.controllers;
 
+import static reactor.event.selector.Selectors.$;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arpit.actors.Receiver;
 import com.arpit.datatypes.EventRegistryDataType;
 import com.arpit.db.BaseDAO;
 import com.arpit.db.EventHandlerEntity;
@@ -19,7 +22,6 @@ import com.arpit.db.EventNameEntity;
 import com.arpit.db.EventNameManager;
 import com.arpit.db.EventRegistryEntity;
 import com.arpit.db.EventRegistryManager;
-import com.arpit.services.EventRegistryService;
 
 @RestController
 @RequestMapping(value="/eventregistry")
@@ -53,15 +55,14 @@ public class EventRegistryController extends BaseController{
 			return "No handler found by that ID";
 		
 		EventRegistryEntity registryEntity = new EventRegistryEntity();
-		registryEntity.setEventId(eventEntity);
-		registryEntity.setHandlerId(handlerEntity);
+		registryEntity.setEvent(eventEntity);
+		registryEntity.setHandler(handlerEntity);
 		registryEntity.setNamespaces(eventRegistry.getNamespaces());
 		
 		BaseDAO<EventRegistryEntity> dao = new EventRegistryManager();
 		dao.setMongoOperation(mongoOperation);
 		dao.add(registryEntity);
-//		EventRegistryService registryService = new EventRegistryService();
-//		registryService.add(entity);
+		reactor.on($(eventEntity.getName()), new Receiver());
 		return registryEntity.getId();
 	}
 	

@@ -26,17 +26,17 @@ public class EventRegistryEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public EventHandlerEntity getHandlerId() {
+	public EventHandlerEntity getHandler() {
 		return handler;
 	}
-	public void setHandlerId(EventHandlerEntity handlerId) {
-		this.handler = handlerId;
+	public void setHandler(EventHandlerEntity handler) {
+		this.handler = handler;
 	}
-	public EventNameEntity getEventId() {
+	public EventNameEntity getEvent() {
 		return event;
 	}
-	public void setEventId(EventNameEntity eventId) {
-		this.event = eventId;
+	public void setEvent(EventNameEntity event) {
+		this.event = event;
 	}
 	public List<EventNamespace> getNamespaces() {
 		return namespaces;
@@ -50,11 +50,11 @@ public class EventRegistryEntity {
 				+ ", eventId=" + event + ", namespaces=" + namespaces + "]";
 	}
 	
-	public EventRegistryEntity(EventHandlerEntity handlerId, EventNameEntity eventId,
+	public EventRegistryEntity(EventHandlerEntity handler, EventNameEntity event,
 			List<EventNamespace> namespaces) {
 		super();
-		this.handler = handlerId;
-		this.event = eventId;
+		this.handler = handler;
+		this.event = event;
 		this.namespaces = namespaces;
 	}
 	

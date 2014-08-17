@@ -17,6 +17,6 @@ public class Receiver implements Consumer<Event<EventDataType>>{
 	
 	@Override
 	public void accept(Event<EventDataType> arg0) {
-		System.out.println("In the receiverDup accept");
+		System.out.println("In the receiver accept");
 	}
 }

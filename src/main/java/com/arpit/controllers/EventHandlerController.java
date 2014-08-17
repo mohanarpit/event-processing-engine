@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import reactor.event.Event;
-
-import com.arpit.datatypes.EventDataType;
-import com.arpit.datatypes.EventNamespace;
 import com.arpit.db.BaseDAO;
 import com.arpit.db.EventHandlerEntity;
 import com.arpit.db.EventHandlerManager;
@@ -44,22 +40,5 @@ public class EventHandlerController extends BaseController {
 		BaseDAO<EventHandlerEntity> ehm = new EventHandlerManager();
 		ehm.setMongoOperation(mongoOperation);
 		return ehm.get(id);
-	}
-
-	@RequestMapping(value="/push", method=RequestMethod.POST)
-	public @ResponseBody String push(@RequestBody @Valid final EventDataType event) {
-		String eventName = event.getName();
-		List<EventNamespace> ens = event.getEventNamespaces();
-		for(EventNamespace ns : ens ) {
-			System.out.println(ns.getKey());
-			System.out.println(ns.getValue());
-		}
-		
-		System.out.println("The name is: "+eventName);
-//		reactor.on($("name"), new Receiver());
-		System.out.println(reactor.getDispatcher().toString());
-//		reactor.on($("name"), new ReceiverDup());
-		reactor.notify(eventName,Event.wrap(event));
-		return eventName;
 	}
 }
